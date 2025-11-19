@@ -15,24 +15,21 @@ void checkBounds();
 
 int dir,num=4;
 
-struct Snake 
+struct Position 
 {
     int x,y;
 }  
-square[100];
+square[100], fruit;
+ 
 
-struct Fruit
-{
-    int x,y;
-} 
-fruit;
+
 
 void Tick()
  {
 
     moveSnake();
 
-    if ((square[0].x==fruit.x) && (square[0].y==fruit.y)) 
+    if ((square[MIN_SQUARE].x==fruit.x) && (square[MIN_SQUARE].y==fruit.y)) 
     {
         num++; // increase snake length?
         fruit.x=rand()%N;
