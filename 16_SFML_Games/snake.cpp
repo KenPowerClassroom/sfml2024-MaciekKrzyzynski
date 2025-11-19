@@ -6,6 +6,9 @@ int N=30,M=20;
 static int size=16;
 static int width = size*N;
 static int height = size*M;
+int fruitXPos = 10; 
+int fruitYPos = 10;
+int const MIN_SQUARE = 0; 
 
 int dir,num=4;
 
@@ -30,13 +33,13 @@ void Tick()
     } // move snake segments
 
     if (dir==0) 
-        square[0].y+=1;      
+        square[MIN_SQUARE].y+=1;
     if (dir==1) 
-        square[0].x-=1;        
+        square[MIN_SQUARE].x-=1;
     if (dir==2) 
-        square[0].x+=1;         
+        square[MIN_SQUARE].x+=1;
     if (dir==3) 
-        square[0].y-=1;   
+        square[MIN_SQUARE].y-=1;
 
     if ((square[0].x==fruit.x) && (square[0].y==fruit.y)) 
     {
@@ -46,17 +49,17 @@ void Tick()
     }
 
     //Boundary Check
-    if (square[0].x>N) 
-        square[0].x=0;
-    if (square[0].x<0)
-        square[0].x=N;
-    if (square[0].y>M)
-        square[0].y=0;
-    if (square[0].y<0)
-        square[0].y=M;
+    if (square[MIN_SQUARE].x>N)
+        square[MIN_SQUARE].x=0;
+    if (square[MIN_SQUARE].x<0)
+        square[MIN_SQUARE].x=N;
+    if (square[MIN_SQUARE].y>M)
+        square[MIN_SQUARE].y=0;
+    if (square[MIN_SQUARE].y<0)
+        square[MIN_SQUARE].y=M;
  
     for (int i=1;i<num;i++)
-     if (square[0].x==square[i].x && square[0].y==square[i].y)  
+     if (square[MIN_SQUARE].x==square[i].x && square[MIN_SQUARE].y==square[i].y)
          num=i; // snake collision?
  }
 
@@ -76,8 +79,8 @@ int snake()
     Clock clock;
     float timer=0, delay=0.1;
 
-    fruit.x=10;
-    fruit.y=10; 
+    fruit.x=fruitXPos;
+    fruit.y=fruitYPos; 
     
     while (window.isOpen())
     {
