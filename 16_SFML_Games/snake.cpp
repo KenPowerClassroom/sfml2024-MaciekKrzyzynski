@@ -3,9 +3,9 @@
 using namespace sf;
 
 int N=30,M=20;
-int sz=16;
-int w = sz*N;
-int h = sz*M;
+static int size=16;
+static int width = size*N;
+static int height = size*M;
 
 int dir,num=4;
 
@@ -13,50 +13,50 @@ struct Snake
 {
     int x,y;
 }  
-s[100];
+square[100];
 
 struct Fruit
 {
     int x,y;
 } 
-f;
+fruit;
 
 void Tick()
  {
     for (int i=num;i>0;--i)
      {
-        s[i].x = s[i-1].x;
-        s[i].y = s[i-1].y;
+        square[i].x = square[i-1].x;
+        square[i].y = square[i-1].y;
     } // move snake segments
 
     if (dir==0) 
-        s[0].y+=1;      
+        square[0].y+=1;      
     if (dir==1) 
-        s[0].x-=1;        
+        square[0].x-=1;        
     if (dir==2) 
-        s[0].x+=1;         
+        square[0].x+=1;         
     if (dir==3) 
-        s[0].y-=1;   
+        square[0].y-=1;   
 
-    if ((s[0].x==f.x) && (s[0].y==f.y)) 
+    if ((square[0].x==fruit.x) && (square[0].y==fruit.y)) 
     {
         num++; // increase snake length?
-        f.x=rand()%N;
-        f.y=rand()%M;
+        fruit.x=rand()%N;
+        fruit.y=rand()%M;
     }
 
     //Boundary Check
-    if (s[0].x>N) 
-        s[0].x=0;
-    if (s[0].x<0)
-        s[0].x=N;
-    if (s[0].y>M)
-        s[0].y=0;
-    if (s[0].y<0)
-        s[0].y=M;
+    if (square[0].x>N) 
+        square[0].x=0;
+    if (square[0].x<0)
+        square[0].x=N;
+    if (square[0].y>M)
+        square[0].y=0;
+    if (square[0].y<0)
+        square[0].y=M;
  
     for (int i=1;i<num;i++)
-     if (s[0].x==s[i].x && s[0].y==s[i].y)  
+     if (square[0].x==square[i].x && square[0].y==square[i].y)  
          num=i; // snake collision?
  }
 
@@ -64,7 +64,7 @@ int snake()
 {  
     srand(time(0));
 
-    RenderWindow window(VideoMode(w, h), "Snake Game!");
+    RenderWindow window(VideoMode(width, height), "Snake Game!");
 
     Texture t1,t2;
     t1.loadFromFile("images/snake/white.png");
@@ -76,8 +76,8 @@ int snake()
     Clock clock;
     float timer=0, delay=0.1;
 
-    f.x=10;
-    f.y=10; 
+    fruit.x=10;
+    fruit.y=10; 
     
     while (window.isOpen())
     {
@@ -85,10 +85,10 @@ int snake()
         clock.restart();
         timer+=time; 
 
-        Event e;
-        while (window.pollEvent(e))
+        Event event;
+        while (window.pollEvent(event))
         {
-            if (e.type == Event::Closed)      
+            if (event.type == Event::Closed)      
                 window.close();
         }
 
@@ -109,17 +109,17 @@ int snake()
     for (int i=0; i<N; i++) 
       for (int j=0; j<M; j++) 
       { 
-          sprite1.setPosition(i*sz, j*sz);
+          sprite1.setPosition(i*size, j*size);
           window.draw(sprite1); //Draw white boxes
       }
 
     for (int i=0;i<num;i++)
     {
-        sprite2.setPosition(s[i].x*sz, s[i].y*sz);  
+        sprite2.setPosition(square[i].x*size, square[i].y*size);  
         window.draw(sprite2); // draw red boxes
     }
    
-    sprite2.setPosition(f.x*sz, f.y*sz); 
+    sprite2.setPosition(fruit.x*size, fruit.y*size); 
     window.draw(sprite2);    
 
     window.display();
