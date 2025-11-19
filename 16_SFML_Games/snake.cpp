@@ -10,6 +10,9 @@ int fruitXPos = 10;
 int fruitYPos = 10;
 int const MIN_SQUARE = 0; 
 
+void moveSnake();
+void checkBounds();
+
 int dir,num=4;
 
 struct Snake 
@@ -26,20 +29,8 @@ fruit;
 
 void Tick()
  {
-    for (int i=num;i>0;--i)
-     {
-        square[i].x = square[i-1].x;
-        square[i].y = square[i-1].y;
-    } // move snake segments
 
-    if (dir==0) 
-        square[MIN_SQUARE].y+=1;
-    if (dir==1) 
-        square[MIN_SQUARE].x-=1;
-    if (dir==2) 
-        square[MIN_SQUARE].x+=1;
-    if (dir==3) 
-        square[MIN_SQUARE].y-=1;
+    moveSnake();
 
     if ((square[0].x==fruit.x) && (square[0].y==fruit.y)) 
     {
@@ -48,20 +39,53 @@ void Tick()
         fruit.y=rand()%M;
     }
 
+    checkBounds();
     //Boundary Check
-    if (square[MIN_SQUARE].x>N)
-        square[MIN_SQUARE].x=0;
-    if (square[MIN_SQUARE].x<0)
-        square[MIN_SQUARE].x=N;
-    if (square[MIN_SQUARE].y>M)
-        square[MIN_SQUARE].y=0;
-    if (square[MIN_SQUARE].y<0)
-        square[MIN_SQUARE].y=M;
+
  
     for (int i=1;i<num;i++)
      if (square[MIN_SQUARE].x==square[i].x && square[MIN_SQUARE].y==square[i].y)
          num=i; // snake collision?
  }
+
+void moveSnake()
+{
+    for (int i = num; i > 0; --i)
+    {
+        square[i].x = square[i - 1].x;
+        square[i].y = square[i - 1].y;
+    } // move snake segments
+
+    switch (dir)
+    {
+    case(0):
+        square[MIN_SQUARE].y += 1;
+        break;
+    case(1):
+        square[MIN_SQUARE].x -= 1;
+        break;
+    case(2):
+        square[MIN_SQUARE].x += 1;
+        break;
+    case(3):
+        square[MIN_SQUARE].y -= 1;
+        break;
+    default:
+        break;
+    }
+}
+
+void checkBounds()
+{
+    if (square[MIN_SQUARE].x > N)
+        square[MIN_SQUARE].x = 0;
+    if (square[MIN_SQUARE].x < 0)
+        square[MIN_SQUARE].x = N;
+    if (square[MIN_SQUARE].y > M)
+        square[MIN_SQUARE].y = 0;
+    if (square[MIN_SQUARE].y < 0)
+        square[MIN_SQUARE].y = M;
+}
 
 int snake()
 {  
@@ -108,7 +132,7 @@ int snake()
 
    ////// draw  ///////
     window.clear();
-
+  
     for (int i=0; i<N; i++) 
       for (int j=0; j<M; j++) 
       { 
