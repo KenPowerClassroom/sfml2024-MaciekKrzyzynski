@@ -22,7 +22,7 @@ square[100], fruit;
 class Test
 {
 public:
-   void checkBounds(); 
+   int checkBounds(); 
 };
 
 
@@ -75,16 +75,29 @@ void moveSnake()
     }
 }
 
-void Test::checkBounds()
+int Test::checkBounds()
 {
     if (square[MIN_SQUARE].x > MAX_WIDTH)
+    {
         square[MIN_SQUARE].x = 0;
+        return 0;
+    }
     if (square[MIN_SQUARE].x < 0)
+    {
         square[MIN_SQUARE].x = MAX_WIDTH;
+        return MAX_WIDTH;
+    }
     if (square[MIN_SQUARE].y > MAX_HEIGHT)
+    {
         square[MIN_SQUARE].y = 0;
+        return 0;
+    }
     if (square[MIN_SQUARE].y < 0)
+    {
         square[MIN_SQUARE].y = MAX_HEIGHT;
+        return MAX_HEIGHT;
+    }
+    return -1; 
 }
 
 int snake()

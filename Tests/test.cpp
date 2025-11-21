@@ -172,3 +172,11 @@ TEST(Player, ConstrainedDiagonallyFast) {
 	EXPECT_EQ(HEIGHT-1, p.y);
 	EXPECT_EQ(WIDTH-1, p.x);
 }
+
+TEST(Test, SnakeCheckBoundaries) {
+	Test t;
+
+	t.checkBounds();
+	
+	EXPECT_EQ(-1);
+}
