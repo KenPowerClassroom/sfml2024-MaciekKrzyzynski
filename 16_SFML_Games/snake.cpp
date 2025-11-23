@@ -22,7 +22,7 @@ square[100], fruit;
 class Test
 {
 public:
-   int checkBounds(); 
+   int checkBounds(int t_x,int t_y);
 };
 
 
@@ -39,7 +39,7 @@ void Tick()
     }
 
     Test test;
-    test.checkBounds();
+    test.checkBounds(square[MIN_SQUARE].x, square[MIN_SQUARE].y);
     //Boundary Check
 
  
@@ -75,27 +75,31 @@ void moveSnake()
     }
 }
 
-int Test::checkBounds()
+int Test::checkBounds(int t_x, int t_y)
 {
-    if (square[MIN_SQUARE].x > MAX_WIDTH)
+    if (t_x > MAX_WIDTH)
     {
+        t_x = 0;
         square[MIN_SQUARE].x = 0;
-        return 0;
+        return t_x;
     }
-    if (square[MIN_SQUARE].x < 0)
+    if (t_x < 0)
     {
+        t_x = MAX_WIDTH;
         square[MIN_SQUARE].x = MAX_WIDTH;
-        return MAX_WIDTH;
+        return t_x;
     }
-    if (square[MIN_SQUARE].y > MAX_HEIGHT)
+    if (t_y > MAX_HEIGHT)
     {
+        t_y = 0;
         square[MIN_SQUARE].y = 0;
-        return 0;
+        return t_y;
     }
-    if (square[MIN_SQUARE].y < 0)
+    if (t_y < 0)
     {
-        square[MIN_SQUARE].y = MAX_HEIGHT;
-        return MAX_HEIGHT;
+        t_y = MAX_HEIGHT;
+        square[MIN_SQUARE].y = MAX_HEIGHT; 
+        return t_y;
     }
     return -1; 
 }

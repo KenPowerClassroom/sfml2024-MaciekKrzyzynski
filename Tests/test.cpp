@@ -176,7 +176,7 @@ TEST(Player, ConstrainedDiagonallyFast) {
 TEST(Test, SnakeCheckBoundaries) {
 	Test t;
 
-	t.checkBounds();
+	t.checkBounds(10, 1000);
 	
-	EXPECT_EQ(-1);
+	EXPECT_EQ(0);
 }
