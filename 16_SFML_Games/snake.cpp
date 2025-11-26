@@ -1,8 +1,7 @@
-
+//Removed SFML code so that tests run
 #include <time.h>
 #include "SnakeTest.h"
 #include <cstdlib>
-
 
 int MAX_WIDTH=30,MAX_HEIGHT=20;
 static int size=16;
@@ -11,8 +10,6 @@ static int height = size*MAX_HEIGHT;
 int fruitXPos, fruitYPos = 10;
 int const MIN_SQUARE = 0; 
 
-
-
 int dir,num=4;
 
 struct Position 
@@ -20,7 +17,6 @@ struct Position
     int x,y;
 }  
 square[100], fruit;
- 
 
 bool SnakeTest::moveSnake()
 {
@@ -54,7 +50,6 @@ bool SnakeTest::moveSnake()
     }
 }
 
-
 int SnakeTest::checkBounds(int t_x, int t_y)
 {
     if (t_x > MAX_WIDTH)
@@ -84,31 +79,43 @@ int SnakeTest::checkBounds(int t_x, int t_y)
     return -1;
 }
 
+int SnakeTest::ranomizeFruitSpawnAndIncreaseSnakeLenght()
+{
+    if ((square[MIN_SQUARE].x == fruit.x) && (square[MIN_SQUARE].y == fruit.y))  //Fruit hit
+    {
+        num++; // increase snake length
+        fruit.x = rand() % MAX_WIDTH;
+        fruit.y = rand() % MAX_HEIGHT;
+        return num;
+    }
+    return -1;
+}
+
+bool SnakeTest::snakeCollision()
+{
+    for (int i = 1;i < num;i++)
+    {
+        if (square[MIN_SQUARE].x == square[i].x && square[MIN_SQUARE].y == square[i].y) // snake collides with itself
+        {
+            num = i;
+            return true; 
+        }
+    }
+    return false;
+}
+
 void Tick()
  {
     SnakeTest test;
     test.moveSnake();
 
-    if ((square[MIN_SQUARE].x==fruit.x) && (square[MIN_SQUARE].y==fruit.y)) 
-    {
-        num++; // increase snake length?
-        fruit.x=rand()%MAX_WIDTH;
-        fruit.y=rand()%MAX_HEIGHT;
-    }
-
-    
+    test.ranomizeFruitSpawnAndIncreaseSnakeLenght();
     test.checkBounds(square[MIN_SQUARE].x, square[MIN_SQUARE].y);
     //Boundary Check
 
  
-    for (int i=1;i<num;i++)
-     if (square[MIN_SQUARE].x==square[i].x && square[MIN_SQUARE].y==square[i].y)
-         num=i; // snake collision?
+    test.snakeCollision();
  }
-
-
-
-
 
 int snake()
 {  
@@ -120,10 +127,6 @@ int snake()
     fruit.x=fruitXPos;
     fruit.y=fruitYPos; 
     
-    
-
-
-
     return 0;
 }
 

@@ -177,15 +177,48 @@ TEST(Player, ConstrainedDiagonallyFast) {
 TEST(SnakeTest, SnakeCheckBoundaries) {
 	SnakeTest t;
 
-	int returnValue = t.checkBounds(10, 1000);
+	int returnValue = t.checkBounds(10, 1000); // snake outside of boundary on the right
 	EXPECT_EQ(0, returnValue);
-	returnValue = t.checkBounds(10, 10);
+	returnValue = t.checkBounds(10, 10); //snake within the boundary
 	EXPECT_EQ(-1, returnValue);
+	returnValue = t.checkBounds(10, -10); //snake outside of boundary on top
+	EXPECT_EQ(MAX_HEIGHT, returnValue);
 }
 
 TEST(SnakeTest, SnakeMoving) {
 	SnakeTest t;
 	bool returnBool = t.moveSnake(); 
 
-	EXPECT_TRUE(returnBool);
+	EXPECT_TRUE(returnBool); // check if snake is moving 
+}
+
+TEST(SnakeTest, IncreaseSnakeLenght) {
+	SnakeTest t;
+	int returnInt = t.ranomizeFruitSpawnAndIncreaseSnakeLenght();
+	int previousNum = num; // get the current lenght of snake
+
+	EXPECT_EQ(-1,returnInt);
+
+	square[MIN_SQUARE].x = fruit.x;
+	square[MIN_SQUARE].y = fruit.y; //change values so snake hits the fruit 
+	returnInt = t.ranomizeFruitSpawnAndIncreaseSnakeLenght();
+	EXPECT_EQ(previousNum + 1, returnInt); // Check if snake lenght was incresed correctly 
+}
+
+TEST(SnakeTest, SnakeCollidesWithItself) {
+	SnakeTest t;
+	square[MIN_SQUARE].x = 10; //place two snake segments somewhere far
+	square[MIN_SQUARE].y = 10;
+	square[MIN_SQUARE + 1].x = 11;
+	square[MIN_SQUARE + 1].y = 11;
+	bool returnBool = t.snakeCollision();
+	EXPECT_FALSE(returnBool);
+	
+	square[MIN_SQUARE].x = 10; //place two snake segments in the same position (collision)
+	square[MIN_SQUARE].y = 10;
+	square[MIN_SQUARE + 1].x = 10;
+	square[MIN_SQUARE + 1].y = 10;
+
+	returnBool = t.snakeCollision();
+	EXPECT_TRUE(returnBool); 
 }
