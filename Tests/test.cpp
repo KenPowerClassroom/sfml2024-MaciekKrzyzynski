@@ -6,6 +6,7 @@ const int tileSize = 18;
 
 #include"../16_SFML_Games/Grid.h"
 #include"../16_SFML_Games/Player.h"
+#include"../16_SFML_Games/snake.cpp"
 
 
 TEST(Grid, HasWallsAndInterior) {
@@ -173,10 +174,18 @@ TEST(Player, ConstrainedDiagonallyFast) {
 	EXPECT_EQ(WIDTH-1, p.x);
 }
 
-TEST(Test, SnakeCheckBoundaries) {
-	Test t;
+TEST(SnakeTest, SnakeCheckBoundaries) {
+	SnakeTest t;
 
-	t.checkBounds(10, 1000);
-	
-	EXPECT_EQ(0);
+	int returnValue = t.checkBounds(10, 1000);
+	EXPECT_EQ(0, returnValue);
+	returnValue = t.checkBounds(10, 10);
+	EXPECT_EQ(-1, returnValue);
+}
+
+TEST(SnakeTest, SnakeMoving) {
+	SnakeTest t;
+	bool returnBool = t.moveSnake(); 
+
+	EXPECT_TRUE(returnBool);
 }
